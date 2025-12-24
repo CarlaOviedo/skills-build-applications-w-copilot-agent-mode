@@ -26,12 +26,8 @@ class LeaderboardViewSet(viewsets.ModelViewSet):
     serializer_class = LeaderboardSerializer
 
 @api_view(['GET'])
-def api_root(request, format=None):
-    import os
-    codespace = os.environ.get('CODESPACE_NAME')
-    if codespace:
-        base_url = f"https://{codespace}-8000.app.github.dev/api/"
-    else:
+def api_root(request, base_url=None, format=None):
+    if not base_url:
         base_url = request.build_absolute_uri('/api/')
     return Response({
         'users': base_url + 'users/',
